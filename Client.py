@@ -1,8 +1,7 @@
 import socket
 
 class Socket():
-  def __init__(self, host_name: str, port_to_connect: int) -> None:
-    str: self.host_name = host_name
-    int: self.port_to_connect = port_to_connect
-  
+  def __init__(self) -> None:
+    self.host_address: str = input("Enter the host address: ")
+    self.port_to_connect: int = int(input("Enter the port: "))
   
