@@ -34,7 +34,7 @@ class Server():
         client, client_address = self.server_socket.accept()
         print(f"We have a new client from {client_address}")
         self.clients.append(client)
-        client_thread: Thread = Thread(target=Chat.handle_messages, args=(client,))
+        client_thread: Thread = Thread(target=Chat.handle_messages, args=(self, client,))
         client_thread.start()
 
     except Exception as e:
