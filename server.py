@@ -38,6 +38,12 @@ class Server():
     except Exception as e:
       print(f"Failed to accept the client connection here: {e}")
 
+  def start_server(self) -> None:
+    try:
+      self.initialize_socket()
+      self.accept_client_connections()
+    except Exception as e:
+      print(f"Server failed to start: {e}")
 
 
 

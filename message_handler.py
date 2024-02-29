@@ -1,8 +1,9 @@
 from chat import Chat
-from server import Server
 from better_profanity import profanity
 import socket
 
+class Server:
+  pass
 
 class MessageHandler():
 

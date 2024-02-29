@@ -1,6 +1,3 @@
-import socket
-from server import Server
-
 class Chat():
   """
     Chat class to handle all chat functions.
