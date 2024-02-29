@@ -1,9 +1,7 @@
 from typing import List
 from threading import Thread
-from chat import Chat
+from message_handler import MessageHandler
 import socket
-import threading
-
 
 class Server():
   """
@@ -34,7 +32,7 @@ class Server():
         client, client_address = self.server_socket.accept()
         print(f"We have a new client from {client_address}")
         self.clients.append(client)
-        client_thread: Thread = Thread(target=Chat.handle_messages, args=(self, client,))
+        client_thread: Thread = Thread(target=MessageHandler.handle_messages, args=(self, client,))
         client_thread.start()
 
     except Exception as e:
