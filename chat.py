@@ -2,7 +2,9 @@ import socket
 from server import Server
 
 class Chat():
-
+  """
+    Chat class to handle all chat functions.
+  """
   @staticmethod
   def handle_messages(server: Server, client: socket.socket):
     """ Handles messages across all clients. 
