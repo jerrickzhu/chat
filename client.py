@@ -1,6 +1,5 @@
 import socket
 from threading import Thread
-from message_handler import MessageHandler
 
 
 class Client():
@@ -8,13 +7,16 @@ class Client():
     self.host_address: str = input("Enter the host address: ")
     self.port_to_connect: int = int(input("Enter the port: "))
     self.client_socket: socket.socket = None
+    # Variable to determine if the client is connected or not.
+    self.CONNECTED = False
 
 
   def connect_to_server(self) -> None:
     try:
       self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
       self.client_socket.connect((self.host_address, self.port_to_connect))
-
+      self.CONNECTED = True
+      print("You have successfully connected to the server!")
     except Exception as e:
       print(f"Client failed to connect: {e}")
 
@@ -24,13 +26,31 @@ class Client():
     except Exception as e:
       print(f"Failed to send message: {e}")
 
-if __name__ == "__main__":
-    new_client: Client = Client()
-    new_client.connect_to_server()
+  def receive_messages(self) -> None:
+    try:
+      while True:
+        message_data = self.client_socket.recv(1024).decode()
+        if not message_data:
+          break
 
-    while True:
+    except Exception as e:
+      print(f"Failed to receive message: {e}")
+    
+  def start_client(self) -> None:
+    self.connect_to_server()
+
+    receive_thread: Thread = Thread(target=self.receive_messages)
+    receive_thread.start()
+
+    while self.CONNECTED:
         message = input("Enter message: ")
-        new_client.send_message(message)
+        self.send_message(message)
+
+
+
+if __name__ == "__main__":
+    client: Client = Client()
+    client.start_client()
   
 
 

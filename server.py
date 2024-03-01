@@ -1,10 +1,7 @@
-from typing import List
 from threading import Thread
-from client_manager import client_manager_instance
-from message_handler import MessageHandler
-
+from client_handler import ClientHandler
 import socket
-import json
+
 
 class Server():
   """
@@ -15,7 +12,7 @@ class Server():
     self.host_address: str = "0.0.0.0"
     self.PORT: int = 5001
     self.server_socket: socket = None
-    self.CLIENT_MANAGER = client_manager_instance
+    self.CLIENT_HANDLER: ClientHandler = ClientHandler()
 
   def initialize_socket(self) -> None:
     """ Initializes the socket with the host address and port. """
@@ -24,6 +21,7 @@ class Server():
       self.server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
       self.server_socket.bind((self.host_address, self.PORT))
       print("The socket instance has successfully been instantiated.")
+      self.accept_client_connections()
     except Exception as e:
       print(f"Initializing a socket instance has failed: {e}")
 
@@ -31,22 +29,22 @@ class Server():
     """ Connects client to server. """
     client: socket.socket = None
     try:
+      self.server_socket.listen()
       while True:
-        self.server_socket.listen()
         client, client_address = self.server_socket.accept()
         print(f"We have a new client from {client_address}")
-        self.CLIENT_MANAGER.add_client(client)
-        client_thread: Thread = Thread(target=MessageHandler.handle_messages, args=(client,))
+
+        # Starts a thread for the client. Each client will have the client handler
+        # handle all messages received.
+        client_thread: Thread = Thread(target=self.CLIENT_HANDLER.handle_client_messages, args=(client,))
         client_thread.start()
     except (ConnectionAbortedError, ConnectionRefusedError):
-      self.CLIENT_MANAGER.remove_client(client)
-      client.close()
       print(f"User disconnected")
 
   def start_server(self) -> None:
+    """ Start server with this method. """
     try:
       self.initialize_socket()
-      self.accept_client_connections()
     except Exception as e:
       print(f"Failed starting server: {e}")
 
