@@ -36,7 +36,7 @@ class Server():
 
         # Starts a thread for the client. Each client will have the client handler
         # handle all messages received.
-        client_thread: Thread = Thread(target=self.CLIENT_HANDLER.handle_client_messages, args=(client,))
+        client_thread: Thread = Thread(target=self.CLIENT_HANDLER.handle_client, args=(client,))
         client_thread.start()
     except (ConnectionAbortedError, ConnectionRefusedError):
       print(f"User disconnected")
