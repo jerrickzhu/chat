@@ -1,8 +1,10 @@
 from typing import List
 from threading import Thread
+from client_manager import client_manager_instance
 from message_handler import MessageHandler
-from better_profanity import profanity
+
 import socket
+import json
 
 class Server():
   """
@@ -13,7 +15,7 @@ class Server():
     self.host_address: str = "0.0.0.0"
     self.PORT: int = 5001
     self.server_socket: socket = None
-    self.clients: List[socket.socket] = None
+    self.CLIENT_MANAGER = client_manager_instance
 
   def initialize_socket(self) -> None:
     """ Initializes the socket with the host address and port. """
@@ -27,17 +29,19 @@ class Server():
 
   def accept_client_connections(self) -> None:
     """ Connects client to server. """
+    client: socket.socket = None
     try:
       while True:
         self.server_socket.listen()
         client, client_address = self.server_socket.accept()
         print(f"We have a new client from {client_address}")
-        self.clients.append(client)
-        client_thread: Thread = Thread(target=MessageHandler.handle_messages, args=(self, client,))
+        self.CLIENT_MANAGER.add_client(client)
+        client_thread: Thread = Thread(target=MessageHandler.handle_messages, args=(client,))
         client_thread.start()
-
-    except Exception as e:
-      print(f"Failed to accept the client connection here: {e}")
+    except (ConnectionAbortedError, ConnectionRefusedError):
+      self.CLIENT_MANAGER.remove_client(client)
+      client.close()
+      print(f"User disconnected")
 
   def start_server(self) -> None:
     try:
@@ -45,3 +49,5 @@ class Server():
       self.accept_client_connections()
     except Exception as e:
       print(f"Failed starting server: {e}")
+
+

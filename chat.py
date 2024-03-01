@@ -7,6 +7,6 @@ class Chat():
     """ Shows messages to all clients. """
     try:
       for client in clients:
-        client.send(message)
+        client.send(message.encode())
     except Exception as e:
       print(f"Could not send messages: {e}")

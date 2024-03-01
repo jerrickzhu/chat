@@ -1,4 +1,11 @@
+from client_manager import ClientManager
 from server import Server
 
-new_server = Server()
-new_server.start_server()
+def main():
+  client_manager: ClientManager = ClientManager()
+  server: Server = Server()
+
+  server.start_server()
+
+if __name__ == "__main__":
+  main()
