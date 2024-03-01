@@ -8,7 +8,7 @@ class Client:
     self.port_to_connect: int = int(input("Enter the port: "))
     self.client_socket: socket.socket = None
     # Variable to determine if the client is connected or not.
-    self.CONNECTED = False
+    self.CONNECTED: bool = False
 
 
   def connect_to_server(self) -> None:
@@ -38,14 +38,18 @@ class Client:
       print(f"Failed to receive message: {e}")
     
   def start_client(self) -> None:
-    self.connect_to_server()
+    try:
+      self.connect_to_server()
 
-    receive_thread: Thread = Thread(target=self.receive_messages)
-    receive_thread.start()
+      receive_thread: Thread = Thread(target=self.receive_messages)
+      receive_thread.start()
 
-    while self.CONNECTED:
-        message = input()
-        self.send_message(message)
+      while self.CONNECTED:
+          message = input()
+          self.send_message(message)
+    except Exception as e:
+      self.CONNECTED = False
+      print(f"Client start failed! {e}")
 
 if __name__ == "__main__":
     client: Client = Client()
