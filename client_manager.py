@@ -28,7 +28,7 @@ class ClientManager():
     except Exception as e:
       print(f"Failed to remove client from the list {e}")
 
-  def get_clients(self) -> None:
+  def get_clients(self) -> List[socket.socket]:
     return self.clients
 
 client_manager_instance: ClientManager = ClientManager()
