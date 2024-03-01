@@ -3,17 +3,16 @@ from threading import Thread
 
 
 class Client:
-  def __init__(self) -> None:
-    self.host_address: str = input("Enter the host address: ")
-    self.port_to_connect: int = int(input("Enter the port: "))
-    self.client_socket: socket.socket = None
+  def __init__(self, host_address: str, port: int) -> None:
+    self.host_address: str = host_address
+    self.port_to_connect: int = port
+    self.client_socket: socket.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # Variable to determine if the client is connected or not.
     self.CONNECTED: bool = False
 
 
   def connect_to_server(self) -> None:
     try:
-      self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
       self.client_socket.connect((self.host_address, self.port_to_connect))
       self.CONNECTED = True
       print("You have successfully connected to the server!")
@@ -51,9 +50,6 @@ class Client:
       self.CONNECTED = False
       print(f"Client start failed! {e}")
 
-if __name__ == "__main__":
-    client: Client = Client()
-    client.start_client()
   
 
 
