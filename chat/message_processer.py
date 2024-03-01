@@ -1,6 +1,6 @@
 from better_profanity import profanity
 
-class MessageProcessor():
+class MessageProcessor:
   """
     Process any messages. Currently supports cleaning messages from profanity
   """

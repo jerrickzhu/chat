@@ -2,7 +2,7 @@ import socket
 from threading import Thread
 
 
-class Client():
+class Client:
   def __init__(self) -> None:
     self.host_address: str = input("Enter the host address: ")
     self.port_to_connect: int = int(input("Enter the port: "))
@@ -30,6 +30,7 @@ class Client():
     try:
       while True:
         message_data = self.client_socket.recv(1024).decode()
+        print(message_data)
         if not message_data:
           break
 
@@ -43,10 +44,8 @@ class Client():
     receive_thread.start()
 
     while self.CONNECTED:
-        message = input("Enter message: ")
+        message = input()
         self.send_message(message)
-
-
 
 if __name__ == "__main__":
     client: Client = Client()

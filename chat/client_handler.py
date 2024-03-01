@@ -5,7 +5,7 @@ from typing import List
 from message_processer import MessageProcessor
 import socket
 
-class ClientHandler():
+class ClientHandler:
   """
     Manage individual client connections to server. 
     Handles tasks like accepting client connections,

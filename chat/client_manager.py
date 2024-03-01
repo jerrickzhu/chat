@@ -1,7 +1,7 @@
 import socket
 from typing import List
 
-class ClientManager():
+class ClientManager:
   """
     Manages clients in a list and offers operations to add, remove, and checkout
     list of clients.

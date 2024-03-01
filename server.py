@@ -3,7 +3,7 @@ from client_handler import ClientHandler
 import socket
 
 
-class Server():
+class Server:
   """
     This class defines the set up the server, including any listening
     and client connections that may happen.
