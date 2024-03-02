@@ -1,8 +1,8 @@
 # client_manager_instance is a global instance that keeps track of clients in a list.
-from client_manager import client_manager_instance as CLIENT_MANAGER
+from chat.client_manager import client_manager_instance as CLIENT_MANAGER
 from typing import List
 # Import MessageHandler to clean messages from profanity.
-from message_processer import MessageProcessor
+from chat.message_processer import MessageProcessor
 import socket
 
 class ClientHandler:

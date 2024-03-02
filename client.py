@@ -9,7 +9,7 @@ class Client:
     self.client_socket: socket.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # Variable to determine if the client is connected or not.
     self.CONNECTED: bool = False
-
+    self.message_received: str = ""
 
   def connect_to_server(self) -> None:
     try:
@@ -32,9 +32,14 @@ class Client:
         print(message_data)
         if not message_data:
           break
-
+        self.message_received = message_data
     except Exception as e:
       print(f"Failed to receive message: {e}")
+
+  def get_message(self) -> str:
+    message_to_send: str = self.message_received
+    self.message_received = ""
+    return message_to_send
     
   def start_client(self) -> None:
     try:
@@ -50,7 +55,6 @@ class Client:
       self.CONNECTED = False
       print(f"Client start failed! {e}")
 
-  
 
 
   

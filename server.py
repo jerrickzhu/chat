@@ -1,5 +1,5 @@
 from threading import Thread
-from client_handler import ClientHandler
+from chat.client_handler import ClientHandler
 import socket
 
 
